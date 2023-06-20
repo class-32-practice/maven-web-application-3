@@ -1,35 +1,52 @@
-pipeline{
-  agent any 
-  tools {
-    maven "maven2"
-  }  
-  stages {
-    stage('1GetCode')
-      steps{
-        sh "echo 'cloning the latest application version' "
-        git branch: 'master', credentialsId: 'gitHubCredentials', url: 'https://github.com/Abookey/maven-web-application'
+pipeline {
+  agent {
+    label 'Agent3'
+  }
+  
+  environment {
+    MAVEN_HOME = tool name: 'maven2'
+  }
+  
+  stages{
+    stage('1.GetCode') {
+      steps {
+        git "https://github.com/Abookey/maven-web-application"
+        //sh "git clone https://github.com/Abookey/maven-web-application"
+        //bat "git clone https://github.com/Abookey/maven-web-application"
       }
     }
-    stage('3Test+Build'){
-      steps{
-        sh "echo 'running JUnit-test-cases' "
-        sh "echo 'testing must passed to create artifacts ' "
-        sh "mvn clean package"
+    
+    stage('2.Build') {
+      steps {
+        sh "${env.MAVEN_HOME}/bin/mvn package"
       }
     }
-    /*
-    stage('4CodeQuality'){
-      steps{
-        sh "echo 'Perfoming CodeQualityAnalysis' "
-        sh "mvn sonar:sonar"
+    
+    stage('3.codeQualityAnalysis') {
+      steps {
+        sh "${env.MAVEN_HOME}/bin/mvn sonar:sonar"
       }
     }
-    stage('5uploadNexus'){
-      steps{
-        sh "mvn deploy"
+    
+    stage('4.upload') {
+      steps {
+        sh "${env.MAVEN_HOME}/bin/mvn deploy"
       }
-    } 
-    stage('8deploy2prod'){
-      steps{
-        deploy adapters: [tomcat8(credentialsId: 'tomcat-credentials', path: '', url: 'http://54.234.49.140:8187/')], contextPath: null, war: 'target/*war'
+    }
+    
+    stage('5.deploy2UAT') {
+      steps {
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-credentials', path: '', url: 'http://54.234.49.140:8187/')], contextPath: null, war: 'target/*war'
       }
+    }
+    
+    stage('6.Approval') {
+      steps {
+        echo 'Apps ready for review'
+        timeout(time: 5, unit: 'HOURS') {
+          input message: 'Application ready for deployment. Please review and approve.'
+        }
+      }
+    }
+  }
+}
