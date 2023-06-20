@@ -4,7 +4,7 @@ pipeline{
     maven "maven2"
   }  
   stages {
-    stage('1GetCode'){
+    stage('1GetCode')
       steps{
         sh "echo 'cloning the latest application version' "
         git branch: 'master', credentialsId: 'gitHubCredentials', url: 'https://github.com/Abookey/maven-web-application'
