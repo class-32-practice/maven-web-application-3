@@ -18,16 +18,15 @@ node{
                                 input message: 'Application is ready for deployment, Pleasereview and approve'
                                 stage('7.production'){
                                     deploy adapters: [tomcat9(credentialsId: 'tomcat-credentials', url: 'http://34.203.242.39:8187/')], contextPath: null, war: 'target/*war'
+*/
                                 }
                             }
                         }
                         
-                    }
-                    
-                    
+                    }         
                 }
             }    
         }
     }
 } 
-*/
+}
