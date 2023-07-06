@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label 'Agent3'
+    label 'Any'
   }
   
   environment {
@@ -10,7 +10,7 @@ pipeline {
   stages{
     stage('1.GetCode') {
       steps {
-        git "https://github.com/Abookey/maven-web-application"
+        git "https://github.com/class-32-practice/maven-web-application-3.git"
         //sh "git clone https://github.com/Abookey/maven-web-application"
         //bat "git clone https://github.com/Abookey/maven-web-application"
       }
@@ -36,7 +36,7 @@ pipeline {
     
     stage('5.deploy2UAT') {
       steps {
-        deploy adapters: [tomcat9(credentialsId: 'tomcat-credentials', path: '', url: 'http://34.236.155.53:8187/')], contextPath: null, war: 'target/*war'
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-credentials', path: '', url: 'http://34.238.42.192:8176/')], contextPath: null, war: 'target/*war'
       }
     }
     
