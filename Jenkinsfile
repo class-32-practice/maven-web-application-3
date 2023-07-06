@@ -11,8 +11,7 @@ pipeline {
     stage('1.GetCode') {
       steps {
         git "https://github.com/class-32-practice/maven-web-application-3.git"
-        //sh "git clone https://github.com/Abookey/maven-web-application"
-        //bat "git clone https://github.com/Abookey/maven-web-application"
+       
       }
     }
     
