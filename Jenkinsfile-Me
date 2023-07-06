@@ -1,6 +1,6 @@
 
 node{
-    def mavenHome = tool name: 'maven2'
+    def mavenHome = tool name: 'maven 3.8.2'
     stage('GetCode'){
         git "https://github.com/class-32-practice/maven-web-application"
         stage('2.Build'){
