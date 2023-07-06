@@ -4,7 +4,7 @@ pipeline {
   }
   
   environment {
-    MAVEN_HOME = tool name: 'maven2'
+    MAVEN_HOME = tool name: 'maven3.8.2'
   }
   
   stages{
