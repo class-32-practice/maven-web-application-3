@@ -1,13 +1,13 @@
 pipeline{
   agent any 
   tools {
-    maven "maven2"
+    maven "maven3.8.2"
   }  
   stages {
     stage('1GetCode'){
       steps{
         sh "echo 'cloning the latest application version' "
-        git branch: 'master', credentialsId: 'gitHubCredentials', url: 'https://github.com/Abookey/maven-web-application'
+        git branch: 'master', credentialsId: 'gitHubCredentials', url: 'https://github.com/class-32-practice/maven-web-application'
       }
     }
     stage('3Test+Build'){
@@ -17,7 +17,7 @@ pipeline{
         sh "mvn clean package"
       }
     }
-    /*
+    
     stage('4CodeQuality'){
       steps{
         sh "echo 'Perfoming CodeQualityAnalysis' "
